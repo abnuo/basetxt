@@ -11,7 +11,7 @@ if action == "d":
   print(basetxt.decode(s))
   print("---------------------")
 if action == "ef":
-  s = input("Enter string to decode to file:\n")
+  s = input("Enter filename of file to encode:\n")
   f = open(s, "rb").read()
   print(basetxt.encode(f))
   print("---------------------")
