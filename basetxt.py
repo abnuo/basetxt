@@ -2,14 +2,20 @@ import random
 import codecs
 import json
 
-with codecs.open("basetxt_config.json", "r", "utf-8") as cfg:
+with codecs.open("basex_config.json", "r", "utf-8") as cfg:
   config = json.loads(cfg.read())
 
 splitBy = config["splitBy"]
 seperator = config["seperator"]
+wordlist = config["wordlist"]
+if "alphabet" in config:
+  alphabet = config["alphabet"]
 
-with codecs.open("unicode.txt", "r", "utf-8") as f:
-  words = f.readlines()
+if not wordlist == "":
+  with codecs.open(wordlist, "r", "utf-8") as f:
+    words = f.readlines()
+else:
+  words = [i for i in alphabet]
 
 #print(len(words))
 
