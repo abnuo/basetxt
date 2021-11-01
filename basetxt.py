@@ -68,6 +68,8 @@ def encode(s):
   #Decoding doesnt require the padding character
   if encoded.split()[-1] == "A":
     return encoded[0:-1]
+  elif encoded[-1] == "A":
+    return encoded[0:-1]
   else:
     return encoded
 
