@@ -2,7 +2,7 @@ import random
 import codecs
 import json
 
-with codecs.open("basex_config.json", "r", "utf-8") as cfg:
+with codecs.open("basetxt_config.json", "r", "utf-8") as cfg:
   config = json.loads(cfg.read())
 
 splitBy = config["splitBy"]
