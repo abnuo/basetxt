@@ -8,14 +8,19 @@ with codecs.open("basex_config.json", "r", "utf-8") as cfg:
 splitBy = config["splitBy"]
 seperator = config["seperator"]
 wordlist = config["wordlist"]
-#if "alphabet" in config:
-#  alphabet = config["alphabet"]
+if "alphabet" in config:
+  alphabet = config["alphabet"]
 if "paddingChar" in config:
   paddingChar = config["paddingChar"]
-  alphabet = config["alphabet"] + paddingChar
+  #alphabet = config["alphabet"] + paddingChar
 else:
-  alphabet = config["alphabet"]
+  #alphabet = config["alphabet"]
   paddingChar = ""
+
+if splitBy > 8:
+    padding = 2
+else:
+    padding = 1
 
 if not wordlist == "":
   with codecs.open(wordlist, "r", "utf-8") as f:
@@ -58,10 +63,6 @@ def encode(s):
   str = s
   if len(str) % 3 != 0:
     print("Adding padding")
-  if splitBy > 8:
-    padding = 2
-  else:
-    padding = 1
   if type(str) == bytes:
     str += b"\x00" * padding
   else:
@@ -83,10 +84,6 @@ def decode(s):
   return wordDecode(s).decode("ascii").replace("\x00", "")
 
 def decodeFile(s):
-  if splitBy > 8:
-    padding = 2
-  else:
-    padding = 1
   if wordDecode(s)[-1] == "\x00" or wordDecode(s)[-1] == b"\x00":
     return wordDecode(s)[0:padding*-1]
   else:
