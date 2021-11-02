@@ -8,8 +8,14 @@ with codecs.open("basex_config.json", "r", "utf-8") as cfg:
 splitBy = config["splitBy"]
 seperator = config["seperator"]
 wordlist = config["wordlist"]
-if "alphabet" in config:
+#if "alphabet" in config:
+#  alphabet = config["alphabet"]
+if "paddingChar" in config:
+  paddingChar = config["paddingChar"]
+  alphabet = config["alphabet"] + paddingChar
+else:
   alphabet = config["alphabet"]
+  paddingChar = ""
 
 if not wordlist == "":
   with codecs.open(wordlist, "r", "utf-8") as f:
@@ -67,17 +73,24 @@ def encode(s):
     encoded = wordEncode(str.encode("utf-8"))
   #Decoding doesnt require the padding character
   if encoded.split()[-1] == "A":
-    return encoded[0:-1]
+    return encoded[0:-1] + ''.join([paddingChar] * padding)
   elif encoded[-1] == "A":
-    return encoded[0:-1]
+    return encoded[0:-1] + ''.join([paddingChar] * padding)
   else:
-    return encoded
+    return encoded + ''.join([paddingChar] * padding)
 
 def decode(s):
-  return wordDecode(s).decode("utf-8").replace("\x00", "")
+  return wordDecode(s).decode("ascii").replace("\x00", "")
 
 def decodeFile(s):
-  return wordDecode(s)[0:padding*-1]
+  if splitBy > 8:
+    padding = 2
+  else:
+    padding = 1
+  if wordDecode(s)[-1] == "\x00" or wordDecode(s)[-1] == b"\x00":
+    return wordDecode(s)[0:padding*-1]
+  else:
+    return wordDecode(s)
 
 #encodeTest = encode("Hey")
 #decodeTest = decode(encodeTest)
